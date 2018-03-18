@@ -55,7 +55,10 @@ class Interface(Gtk.Window):
         self.label=Gtk.Label("Bellek CO.")
         self.vBoxevent.pack_start(self.label,False,False,0)
 
-        label=Gtk.Label("Lütfen işlenecek resim dosyasını seçiniz!")
+        ## View kismi ##
+
+        label=Gtk.Label()
+        label.set_markup("<b>Lütfen işlenecek resim dosyasını seçiniz!</b>")
         self.vBoxview.pack_start(label,False,False,0)
 
         self.filechooserbutton=Gtk.FileChooserButton(title="İşlenecek resmi seçiniz!")
@@ -75,7 +78,7 @@ class Interface(Gtk.Window):
         self.vBoxview.pack_start(self.runbutton,False,False,0)
         self.runbutton.connect("clicked",self.on_click_run_button)
 
-
+        ## *** ##
 
     def get_file_chooser_dialog(self,widget):
         filechooserdialog=Gtk.FileChooserDialog(title="İşlenecek resmi seçiniz!")
@@ -98,7 +101,6 @@ class Interface(Gtk.Window):
         Gtk.main_quit()
 
     def file_changed(self,widget):
-        print(self.filechooserbutton.get_filename())
         self.pix=GdkPixbuf.Pixbuf.new_from_file_at_size(self.filechooserbutton.get_filename(),250,400)
         self.image.set_from_pixbuf(self.pix)
         self.choosenimage=self.filechooserbutton.get_filename()
