@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import gi
+import os
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk, GdkPixbuf
 from gi.repository import GObject
@@ -14,6 +15,9 @@ class Interface(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
 
+        #Darknet path
+        self.path=""
+        #Islenecek resim dosyasinin yolu
         self.choosenimage=""
 
         self.vBox=Gtk.VBox()
@@ -95,7 +99,33 @@ class Interface(Gtk.Window):
         filechooserdialog.destroy()
 
     def on_click_run_button(self,widget):
-        pass
+
+        if self.choosenimage=="":
+            errormessage=Gtk.MessageDialog(self,0,Gtk.MessageType.ERROR,Gtk.ButtonsType.OK,
+                                           "Hata!")
+            errormessage.format_secondary_text(
+                "Lütfen işlenecek resmi seçiniz!"
+            )
+            errormessage.run()
+            errormessage.destroy()
+            return
+
+        if self.path=="":
+            filechooser=Gtk.FileChooserDialog(title="Darknet'in bulunduğu yolu seçiniz")
+            filechooser.set_action(2)
+            filechooser.add_button("_Open",Gtk.ResponseType.OK)
+            filechooser.add_button("_Cancel",Gtk.ResponseType.CANCEL)
+            filechooser.set_default_response(Gtk.ResponseType.OK)
+            response=filechooser.run()
+
+            if response == Gtk.ResponseType.OK :
+                self.path=filechooser.get_filename()
+
+            filechooser.destroy()
+
+        command=self.path+"/./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
+        print(command)
+        os.system(command)
 
     def all_quit(self,widget):
         Gtk.main_quit()
