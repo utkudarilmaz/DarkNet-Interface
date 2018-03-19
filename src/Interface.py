@@ -2,6 +2,8 @@
 
 import gi
 import os
+from threadProgress import threadProgress
+
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk, GdkPixbuf
 from gi.repository import GObject
@@ -123,9 +125,10 @@ class Interface(Gtk.Window):
 
             filechooser.destroy()
 
-        command=self.path+"/./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
-        print(command)
-        os.system(command)
+        command="./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
+        progress=threadProgress(command,self.path)
+        progress.start()
+
 
     def all_quit(self,widget):
         Gtk.main_quit()
