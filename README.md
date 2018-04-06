@@ -8,7 +8,9 @@ cd DarkNet-Interface
 
 python3 src/Interface.py
 
-## Screenshot
+## Screenshots
 
-![DarkNet-Interface](https://i.hizliresim.com/A1d5n7.png)
+![DarkNet-Interface](images/5.png)
+
+![DarkNet-Interface](images/6.png)
 
