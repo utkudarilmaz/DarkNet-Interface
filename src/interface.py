@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
-import gi
 import os
 from threadProgress import ThreadProgress
 
+import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk, GdkPixbuf
 from gi.repository import GObject
@@ -13,7 +13,7 @@ class Interface(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self,title="Interface")
         self.connect("delete-event",Gtk.main_quit)
-        self.set_default_size(550,320)
+        self.set_default_size(1024,768)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_resizable(False)
 
@@ -24,6 +24,8 @@ class Interface(Gtk.Window):
 
         self.vBox=Gtk.VBox()
         self.add(self.vBox)
+
+        ## Menu ##
 
         self.menubar=Gtk.MenuBar()
         self.vBox.pack_start(self.menubar,False,False,0)
@@ -43,10 +45,10 @@ class Interface(Gtk.Window):
         quitmenu.connect("activate",self.all_quit)
         menu.append(quitmenu)
 
+        ## *** ##
 
         self.fixed=Gtk.Fixed()
         self.vBox.pack_start(self.fixed,True,True,0)
-
 
         ## Event Kismi ##
 
@@ -65,18 +67,14 @@ class Interface(Gtk.Window):
 
         ## *** ##
 
-        """ seperator gozukmuyor"""
-        seperator2=Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
-        self.fixed.put(seperator2,240,15)
+        seperator=Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        self.fixedevent.put(seperator,10,10)
+
+        ## View kismi ##
 
         self.vBoxview=Gtk.VBox(spacing=10)
         self.vBoxview.set_homogeneous(False)
-        self.fixed.put(self.vBoxview,270,15)
-
-        #self.label=Gtk.Label("Bellek CO.")
-        #self.vBoxevent.pack_start(self.label,False,False,0)
-
-        ## View kismi ##
+        self.fixed.put(self.vBoxview,740,15)
 
         label=Gtk.Label()
         label.set_markup("<b>Please select the image file to be processed!</b>")
@@ -102,6 +100,45 @@ class Interface(Gtk.Window):
         self.vBoxview.pack_start(self.spinner,False,True,0)
 
         ## *** ##
+
+        ## Log Kismi ##
+
+        self.logBox=Gtk.VBox()
+        #self.fixed.put(self.logBox,10,500)
+        #self.vBoxevent.pack_start(self.logBox,False,False,0)
+
+        logToolbar=Gtk.Toolbar()
+        self.logBox.pack_start(logToolbar,True,True,0)
+
+        logClearButton=Gtk.ToolButton()
+        logClearButton.set_icon_name("edit-clear-symbolic")
+        logClearButton.connect("clicked",self.on_log_clear_button)
+        logToolbar.insert(logClearButton,0)
+
+        logSearchButton=Gtk.ToolButton()
+        logSearchButton.set_icon_name("system-search-symbolic")
+        logToolbar.insert(logSearchButton,1)
+
+        self.logScrolledWindow=Gtk.ScrolledWindow()
+        self.logScrolledWindow.set_hexpand(True)
+        self.logScrolledWindow.set_vexpand(True)
+        self.logBox.pack_start(self.logScrolledWindow,True,True,0)
+
+        self.textView=Gtk.TextView()
+        self.textView.set_editable(True)
+        self.textView.set_wrap_mode(Gtk.WrapMode.WORD)
+        self.textView.set_cursor_visible(False)
+        self.logScrolledWindow.add(self.textView)
+
+        self.textBuffer=self.textView.get_buffer()
+        self.textBuffer.set_text("asfasfasdgklsasfas  sdfasdsadlddfld")
+
+
+
+
+
+        ## *** ##
+
 
     def get_file_chooser_dialog(self,widget):
         filechooserdialog=Gtk.FileChooserDialog(title="İşlenecek resmi seçiniz!")
@@ -142,6 +179,9 @@ class Interface(Gtk.Window):
 
             filechooser.destroy()
 
+        if self.path=="" :
+            return
+
         command="./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
 
         progress=ThreadProgress(self.imageoutput,self.spinner,command,self.path)
@@ -150,7 +190,6 @@ class Interface(Gtk.Window):
         self.spinner.start()
         self.vBoxview.show_all()
 
-
     def all_quit(self,widget):
         Gtk.main_quit()
 
@@ -158,6 +197,9 @@ class Interface(Gtk.Window):
         pix=GdkPixbuf.Pixbuf.new_from_file_at_size(self.filechooserbutton.get_filename(),250,400)
         self.imageinput.set_from_pixbuf(pix)
         self.choosenimage=self.filechooserbutton.get_filename()
+
+    def on_log_clear_button(self,widget):
+        pass
 
 
 window=Interface()
