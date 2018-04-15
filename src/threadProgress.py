@@ -3,6 +3,8 @@
 import threading
 import os
 import gi
+import shlex
+from subprocess import Popen, PIPE
 
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk, GdkPixbuf
@@ -21,8 +23,9 @@ class ThreadProgress(threading.Thread):
 
 
     def run(self):
-        os.chdir(self.path)
-        os.system(self.command)
+        args=shlex.split(self.command)
+        process=Popen(args, cwd=self.path)
+        process.wait()
         self.spinner.stop()
-        pix=GdkPixbuf.Pixbuf.new_from_file_at_size(self.outputpath,550,700)
+        pix=GdkPixbuf.Pixbuf.new_from_file_at_scale(self.outputpath,550,700,True)
         self.imageoutput.set_from_pixbuf(pix)
