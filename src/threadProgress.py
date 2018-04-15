@@ -24,5 +24,5 @@ class ThreadProgress(threading.Thread):
         os.chdir(self.path)
         os.system(self.command)
         self.spinner.stop()
-        pix=GdkPixbuf.Pixbuf.new_from_file_at_size(self.outputpath,250,400)
+        pix=GdkPixbuf.Pixbuf.new_from_file_at_size(self.outputpath,550,700)
         self.imageoutput.set_from_pixbuf(pix)
