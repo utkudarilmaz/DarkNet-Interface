@@ -58,7 +58,7 @@ class Interface(Gtk.Window):
 
         self.imageoutput=Gtk.Image()
         self.vBoxevent.pack_start(self.imageoutput,True,True,25)
-        pix=GdkPixbuf.Pixbuf.new_from_file_at_size("../images/blank.jpg",550,700)
+        pix=GdkPixbuf.Pixbuf.new_from_file_at_scale("../images/blank.jpg",550,700,True)
         self.imageoutput.set_from_pixbuf(pix)
 
         ## *** ##
@@ -193,7 +193,7 @@ class Interface(Gtk.Window):
 
         command="./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
 
-        progress=ThreadProgress(self.imageoutput,self.spinner,command,self.path)
+        progress=ThreadProgress(self.imageoutput,self.spinner,command,self.path,self.textBuffer)
         progress.start()
 
         self.spinner.start()
@@ -208,7 +208,7 @@ class Interface(Gtk.Window):
         self.choosenimage=self.filechooserbutton.get_filename()
 
     def on_log_clear_button(self,widget):
-        pass
+        self.textBuffer.set_text("")
 
 
 window=Interface()
