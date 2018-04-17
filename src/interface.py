@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import os
-from threadProgress import ThreadProgress
+from threadProgress import ThreadProgress, TextBufferSetter
 
 import gi
 gi.require_version('Gtk','3.0')
@@ -195,6 +195,8 @@ class Interface(Gtk.Window):
 
         progress=ThreadProgress(self.imageoutput,self.spinner,command,self.path,self.textBuffer)
         progress.start()
+        textBufferProgress=TextBufferSetter(self.textBuffer)
+        textBufferProgress.start()
 
         self.spinner.start()
         self.vBoxview.show_all()

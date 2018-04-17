@@ -4,6 +4,7 @@ import threading
 import os
 import gi
 import shlex
+import time
 from subprocess import Popen, PIPE
 
 gi.require_version('Gtk','3.0')
@@ -27,31 +28,30 @@ class ThreadProgress(threading.Thread):
         args=shlex.split(self.command)
 
         tmpWrite = open("tmpout", "wb")
-        self.tmpRead = open("tmpout","r")
-
-        t=TextBufferSetter(self.textBuffer,self.tmpRead)
 
         process=Popen(args, cwd=self.path, stdout = tmpWrite, stderr = tmpWrite, bufsize = 1)
-        t.start()
+
         process.wait()
 
         tmpWrite.close()
-        self.tmpRead.close()
 
         self.spinner.stop()
-        self.tmpRead.close()
         pix=GdkPixbuf.Pixbuf.new_from_file_at_scale(self.outputpath,550,700,True)
         self.imageoutput.set_from_pixbuf(pix)
 
 class TextBufferSetter(threading.Thread):
 
-    def __init__(self,textBuffer,tmpRead) :
-
+    def __init__(self,textBuffer) :
         threading.Thread.__init__(self)
         self.textBuffer = textBuffer
-        self.tmpRead=tmpRead
 
     def run(self) :
 
-        while not self.tmpRead.closed :
-            self.textBuffer.set_text(self.tmpRead.read())
+        tmpRead = open("tmpout","r")
+        print("start")
+        while(True):
+            print("in loop")
+            self.textBuffer.set_text(tmpRead.read())
+            time.sleep(2)
+
+        tmpRead.close()
