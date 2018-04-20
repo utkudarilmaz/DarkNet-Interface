@@ -4,9 +4,9 @@
 
 git clone https://github.com/utkudarilmaz/DarkNet-Interface
 
-cd DarkNet-Interface
+cd DarkNet-Interface/src
 
-python3 src/Interface.py
+python3 interface.py
 
 ## Screenshots
 
