@@ -191,12 +191,14 @@ class Interface(Gtk.Window):
         if self.path=="" :
             return
 
-        command="./darknet detect cfg/yolo.cfg yolo.weights "+self.choosenimage
+        command="./darknet detect cfg/yolov3.cfg yolov3.weights "+self.choosenimage
 
         progress=ThreadProgress(self.imageoutput,self.spinner,command,self.path,self.textBuffer)
         progress.start()
-        textBufferProgress=TextBufferSetter(self.textBuffer)
-        textBufferProgress.start()
+        # textBufferProgress=TextBufferSetter(self.textBuffer)
+        # textBufferProgress.start()
+
+
 
         self.spinner.start()
         self.vBoxview.show_all()

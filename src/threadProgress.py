@@ -35,6 +35,10 @@ class ThreadProgress(threading.Thread):
 
         tmpWrite.close()
 
+        f=open("tmpout","r")
+        self.textBuffer.set_text(f.read())
+        f.close()
+
         self.spinner.stop()
         pix=GdkPixbuf.Pixbuf.new_from_file_at_scale(self.outputpath,550,700,True)
         self.imageoutput.set_from_pixbuf(pix)
