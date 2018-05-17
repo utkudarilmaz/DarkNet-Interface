@@ -175,18 +175,24 @@ class Interface(Gtk.Window):
             errormessage.destroy()
             return
 
-        if self.path=="":
-            filechooser=Gtk.FileChooserDialog(title="Darknet'in bulunduğu yolu seçiniz")
-            filechooser.set_action(2)
-            filechooser.add_button("_Open",Gtk.ResponseType.OK)
-            filechooser.add_button("_Cancel",Gtk.ResponseType.CANCEL)
-            filechooser.set_default_response(Gtk.ResponseType.OK)
-            response=filechooser.run()
+        # if self.path=="":
+        #     filechooser=Gtk.FileChooserDialog(title="Darknet'in bulunduğu yolu seçiniz")
+        #     filechooser.set_action(2)
+        #     filechooser.add_button("_Open",Gtk.ResponseType.OK)
+        #     filechooser.add_button("_Cancel",Gtk.ResponseType.CANCEL)
+        #     filechooser.set_default_response(Gtk.ResponseType.OK)
+        #     response=filechooser.run()
+        #
+        #     if response == Gtk.ResponseType.OK :
+        #         self.path=filechooser.get_filename()
+        #
+        #     filechooser.destroy()
 
-            if response == Gtk.ResponseType.OK :
-                self.path=filechooser.get_filename()
+        os.chdir("../darknet/")
 
-            filechooser.destroy()
+        self.path = os.getcwd()
+
+        print(self.path)
 
         if self.path=="" :
             return
