@@ -192,8 +192,6 @@ class Interface(Gtk.Window):
 
         self.path = os.getcwd()
 
-        print(self.path)
-
         if self.path=="" :
             return
 
