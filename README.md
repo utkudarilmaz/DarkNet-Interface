@@ -1,5 +1,7 @@
 # Basic Gtk interface for Darknet
 
+This interface designed for https://github.com/pjreddie/darknet.
+
 ## Usage
 
 git clone https://github.com/utkudarilmaz/DarkNet-Interface
