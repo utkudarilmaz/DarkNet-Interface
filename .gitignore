@@ -1,3 +1,4 @@
 src/asd.py
 src/abc.py
 src/__pycache__/*
+darknet/

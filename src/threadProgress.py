@@ -20,7 +20,7 @@ class ThreadProgress(threading.Thread):
         self.spinner=spinner
         self.command=command
         self.path=path
-        self.outputpath=self.path+"/predictions.png"
+        self.outputpath=self.path+"/predictions.jpg"
         self.textBuffer=textBuffer
 
     def run(self):
